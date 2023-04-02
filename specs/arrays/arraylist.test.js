@@ -18,12 +18,49 @@
 */
 
 class ArrayList {
-  // code goes here
+  constructor() {
+    this.data = {};
+    this.length = 0;
+  }
+  push(value) {
+    this.data[this.length] = value;
+    this.length++;
+    return this.length;
+  }
+
+  pop() {
+    if (this.length === 0) throw new Error("Array is empty");
+    const data = this.delete(this.length - 1);
+    return data;
+  }
+
+  get(index) {
+    return this.data[index];
+  }
+
+  delete(index) {
+    if (index >= 0 && index < this.length) {
+      const data = this.data[index];
+      delete this.data[index];
+      this.#collapses(index);
+      this.length--;
+      return data;
+    } else {
+      throw new Error("Not found");
+    }
+  }
+
+  #collapses(index) {
+    for (let i = index; i < this.length; i++) {
+      this.data[i] = this.data[i + 1];
+    }
+    delete this.data[this.length - 1];
+  }
 }
 
 // unit tests
 // do not modify the below code
-describe.skip("ArrayList", function () {
+describe("ArrayList", function () {
   const range = (length) =>
     Array.apply(null, { length: length }).map(Number.call, Number);
   const abcRange = (length) =>
